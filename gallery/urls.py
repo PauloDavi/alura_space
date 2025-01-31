@@ -1,7 +1,8 @@
 from django.urls import path
-from gallery.views import index, img
+from gallery.views import index, img, search
 
 urlpatterns = [
   path("", index, name="home"),
-  path("img", img, name="img"),
+  path("img/<int:photograph_id>", img, name="img"),
+  path("search/", search, name="search"),
 ]
