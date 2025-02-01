@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
 from users.forms import UserLoginForm, UserRegisterForm
+from django.contrib import messages
 
 def login(request):
   form = UserLoginForm()
@@ -21,8 +22,10 @@ def login(request):
       
       if user is not None:
         auth.login(request, user)
+        messages.success(request, f"Usuário {name} logueado com sucesso")
         return redirect("home")
 
+      messages.error(request, "Usuário ou senha inválidos")
       return redirect("login")
   
   return render(request, "users/login.html", { "form": form })
@@ -35,6 +38,7 @@ def register(request):
     
     if form.is_valid():
       if form.cleaned_data["password"] != form.cleaned_data["password_confirm"]:
+        messages.error(request, "Senhas não conferem")
         return redirect("register")
       
       name = form.cleaned_data["name"]
@@ -42,6 +46,7 @@ def register(request):
       password = form.cleaned_data["password"]
       
       if User.objects.filter(username=name).exists():
+        messages.error(request, "Usuário já existe")
         return redirect("register")
       
       user = User.objects.create_user(
@@ -50,7 +55,12 @@ def register(request):
         password=password
       )
       user.save()
-      
+      messages.success(request, "Usuário criado com sucesso")
       return redirect("login")
   
   return render(request, "users/register.html", { "form": form })
+
+def logout(request):
+  messages.success(request, "Usuário deslogado com sucesso")
+  auth.logout(request)
+  return redirect("login")
