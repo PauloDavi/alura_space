@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from datetime import datetime
 
 class Photograph(models.Model):
@@ -15,6 +16,13 @@ class Photograph(models.Model):
   description = models.TextField(null=False, blank=False)
   image = models.ImageField(upload_to="photo/%Y/%m/%d", blank=True)
   published = models.BooleanField(default=False)
+  user = models.ForeignKey(
+    to=User,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=False,
+    related_name="user",
+  )
   created_at = models.DateTimeField(default=datetime.now, blank=False)
 
   def __str__(self):

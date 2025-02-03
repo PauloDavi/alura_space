@@ -1,5 +1,6 @@
 from pathlib import Path, os
 from dotenv import load_dotenv
+from django.contrib.messages import constants as messages
 
 load_dotenv()
 
@@ -14,6 +15,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -24,6 +27,16 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "gallery.apps.GalleryConfig",
     "users.apps.UsersConfig",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    "django.contrib.sites",
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -34,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "setup.urls"
@@ -104,3 +118,25 @@ MEDIA_URL = "/media/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'success'
+}
+
+# Allauth
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'APP': {
+            'client_id': str(os.getenv("GITHUB_CLIENT_ID")),
+            'secret': str(os.getenv("GITHUB_SECRET")),
+            'key': ''
+        }
+    }
+}
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_LOGOUT_ON_GET = True
+LOGOUT_REDIRECT_URL = '/login'
+ACCOUNT_SIGNUP = False

@@ -69,3 +69,22 @@ class UserRegisterForm(forms.Form):
       }
     ),
   )
+  
+  def clean_name(self):
+    name = self.cleaned_data.get('name')
+    
+    if name:
+      name = name.strip()
+      if " " in name:
+        raise forms.ValidationError('Nome não pode conter espaços')
+    
+    return name
+  
+  def clean_password_confirm(self):
+    password = self.cleaned_data.get('password')
+    password_confirm = self.cleaned_data.get('password_confirm')
+    
+    if password and password_confirm and password != password_confirm:
+        raise forms.ValidationError('Senhas não conferem')
+    
+    return password_confirm

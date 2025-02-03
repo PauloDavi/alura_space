@@ -4,23 +4,17 @@
     src="{% static '/assets/logo/Logo(2).png' %}"
     alt="Logo da Alura Space"
   />
-  {% for message in messages %} 
-    <div class="alert alert-primary" role="alert">
-        <p id="messages">
-            {{ message }}
-        </p>
-    </div>
-  {% endfor %}
+  {% include 'shared/partials/_alert.html' %}
   <div class="cabecalho__busca">
     <div class="busca__fundo">
-      <form action="{% url 'search' %}">
+      <form action="{% url 'search' %}" class="busca__fundo">
         <input
           class="busca__input"
           type="text"
           name="search"
           placeholder="O que você procura?"
         />
-        <button type="submit">
+        <button type="submit" style="border: none; background-color: transparent;">
           <img
             class="busca__icone"
             src="{% static '/assets/ícones/1x/search.png' %}"
