@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <section class="galeria" style="margin-left: 5em">
-    <form action="{% url 'login' %}" method="POST">
+    <form action="{% url 'new_image' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             {% for field in form.visible_fields %}
@@ -15,15 +15,7 @@
             {% endfor %}
         </div>
         <div class="col-12 text-center">
-            <button class="btn btn-success col-12" type="submit">Logar</button>
-        </div>
-        <div class="col-12 text-center">
-            <a href="http://localhost:8000/accounts/github/login?process=login" style="text-decoration: none;">
-                <button class="btn btn-success col-12 github-btn" type="button">
-                    <img src="{% static 'assets/logo/github.svg' %}" alt="Ícone para realizar a autenticação com GitHub" class="social-media-icon">
-                    <p>GitHub</p>
-                </button>
-            </a>
+            <button class="btn btn-success col-12" type="submit">Cadastrar Fotografia</button>
         </div>
     </form>
 </section>

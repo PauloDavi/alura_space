@@ -25,13 +25,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "gallery.apps.GalleryConfig",
-    "users.apps.UsersConfig",
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     "django.contrib.sites",
+    "apps.users.apps.UsersConfig",
+    "apps.gallery.apps.GalleryConfig",
 ]
 
 AUTHENTICATION_BACKENDS = [

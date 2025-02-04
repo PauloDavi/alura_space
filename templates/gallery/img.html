@@ -24,6 +24,14 @@
           {{ photograph.description }}
         </p>
       </div>
+      <div>
+        <a href="{% url 'edit_image' photograph.id %}">
+          <button class="btn btn-success col-12" type="submit">Editar</button>
+        </a>
+        <a href="{% url 'delete_image' photograph.id %}">
+          <button class="btn btn-danger col-12" type="submit">Deletar</button>
+        </a>
+      </div>
     </div>
   </div>
 </section>

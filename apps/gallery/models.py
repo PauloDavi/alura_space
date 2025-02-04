@@ -15,7 +15,7 @@ class Photograph(models.Model):
   category = models.CharField(max_length=100, choices=OPTION_CATEGORY, default='NEBULA')
   description = models.TextField(null=False, blank=False)
   image = models.ImageField(upload_to="photo/%Y/%m/%d", blank=True)
-  published = models.BooleanField(default=False)
+  published = models.BooleanField(default=True)
   user = models.ForeignKey(
     to=User,
     on_delete=models.SET_NULL,
