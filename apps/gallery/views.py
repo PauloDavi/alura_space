@@ -28,7 +28,7 @@ def search(request):
     if search:
       photographs = photographs.filter(title__icontains=search) 
   
-  return render(request, 'gallery/search.html', { 'photographs': photographs })
+  return render(request, 'gallery/index.html', { 'photographs': photographs })
 
 def new_image(request):
   if not request.user.is_authenticated:
@@ -49,10 +49,6 @@ def new_image(request):
 def edit_image(request, photograph_id):
   photograph = get_object_or_404(Photograph, pk=photograph_id)
   form = PhotographForm(instance=photograph)
-  
-  print(request.user.has_perm("change_photograph"))
-  print(photograph.user)
-  print(request.user)
   
   if not request.user.has_perm("change_photograph") and photograph.user != request.user:
     messages.error(request, 'Você não tem permissão para deletar essa imagem')
@@ -77,3 +73,11 @@ def delete_image(request, photograph_id):
   photograph.delete()
   messages.success(request, 'Imagem deletada com sucesso')
   return redirect('home')
+
+def filter(request, category):
+  if not request.user.is_authenticated:
+    messages.error(request, 'Usúario não esta logado')
+    return redirect('login')
+  
+  photographs = Photograph.objects.order_by("created_at").filter(published=True, category=category)
+  return render(request, 'gallery/index.html', { 'photographs': photographs })
